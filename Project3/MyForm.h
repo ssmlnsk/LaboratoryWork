@@ -136,7 +136,7 @@ namespace Project3 {
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 7;
-			this->button1->Text = L"Войти";
+			this->button1->Text = L"Sign in";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
@@ -163,7 +163,7 @@ namespace Project3 {
 			this->MaximumSize = System::Drawing::Size(217, 217);
 			this->MinimumSize = System::Drawing::Size(217, 217);
 			this->Name = L"MyForm";
-			this->Text = L"Авторизация";
+			this->Text = L"Authorization";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
