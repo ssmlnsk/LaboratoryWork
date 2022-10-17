@@ -190,12 +190,13 @@ namespace Project3 {
 		String^ hash = Convert::ToString(HashPas);
 		pas->Text = hash;
 		
-		cli::array<String^>^ user = gcnew cli::array<String^> {login, em, hash};
+		cli::array<String^>^ user = gcnew cli::array<String^> {"login", "em", "hash"};
 
 		StreamWriter^ sw = gcnew StreamWriter("./Data.json");
-		for (int i = 1; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			sw->WriteLine(user[i]);
 		}
+		sw->Close();
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
