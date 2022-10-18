@@ -42,7 +42,8 @@ namespace Project3 {
 		}
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::TextBox^ log;
-	private: System::Windows::Forms::TextBox^ email;
+	private: System::Windows::Forms::TextBox^ em;
+
 
 
 
@@ -71,7 +72,7 @@ namespace Project3 {
 		{
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->log = (gcnew System::Windows::Forms::TextBox());
-			this->email = (gcnew System::Windows::Forms::TextBox());
+			this->em = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->pas = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
@@ -97,12 +98,12 @@ namespace Project3 {
 			this->log->Size = System::Drawing::Size(100, 20);
 			this->log->TabIndex = 2;
 			// 
-			// email
+			// em
 			// 
-			this->email->Location = System::Drawing::Point(74, 52);
-			this->email->Name = L"email";
-			this->email->Size = System::Drawing::Size(100, 20);
-			this->email->TabIndex = 3;
+			this->em->Location = System::Drawing::Point(74, 52);
+			this->em->Name = L"em";
+			this->em->Size = System::Drawing::Size(100, 20);
+			this->em->TabIndex = 3;
 			// 
 			// label2
 			// 
@@ -156,7 +157,7 @@ namespace Project3 {
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->pas);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->email);
+			this->Controls->Add(this->em);
 			this->Controls->Add(this->log);
 			this->Controls->Add(this->label1);
 			this->MaximumSize = System::Drawing::Size(217, 217);
@@ -178,20 +179,80 @@ namespace Project3 {
 	private: System::Void saveFileDialog2_FileOk(System::Object^ sender, System::ComponentModel::CancelEventArgs^ e) {
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		String^ login = log->Text;
-		this->log->Text = login;
+		int b = 0;
+		int state = 0;
+		String^ name = "";
+		String^ host = "";
+		String^ zone = "";
+		bool flag = false;
+		bool found = false;
 
-		String^ em = email->Text;
-		this->email->Text = em;
+		String^ login = log->Text;
+
+		String^ email = em->Text;
+
+		try
+		{
+			for (int i = 0; i < email->Length; i++)
+			{
+				if (email[i] == '@')
+				{
+					flag = true;
+					break;
+				}
+				b = b + 1;
+				name = name + email[i];
+			}
+
+			if (flag == false)
+			{
+				throw gcnew System::Exception("Error email");
+			}
+
+			state = state + 1;
+			if (state == 1)
+			{
+				for (int w = b + 1; w < email->Length; w++)
+				{
+					if (email[w] == '@' || email[w] == '.')
+						break;
+					host = host + email[w];
+				}
+				state = state + 1;
+				if (state == 2)
+				{
+					for (int i = 0; i < email->Length; i++)
+					{
+						if (email[i] == '.')
+							found = true;
+						if (found)
+							zone = zone + email[i];
+					}
+				}
+				if (found == false)
+				{
+					throw gcnew System::Exception("Error email");
+				}
+			}
+		}
+		catch (System::Exception^ e)
+		{
+			MessageBox::Show("Ошибка ввода почты", "Почта", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+		}
 
 		String^ password = pas->Text;
-		int HashPas = password->GetHashCode();
+		int HashPas = 0;
+		if (password != ""){
+			HashPas = password->GetHashCode();
+		}
+		else {
+			MessageBox::Show("Введите пароль!", "Пароль", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+		}
 		String^ hash = Convert::ToString(HashPas);
-		pas->Text = hash;
-		
+
 		cli::array<String^>^ user = gcnew cli::array<String^>{"", "", ""};
 		user[0] = login;
-		user[1] = em;
+		user[1] = email;
 		user[2] = hash;
 
 		StreamWriter^ sw = gcnew StreamWriter("./User.json");
