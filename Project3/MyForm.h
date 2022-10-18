@@ -120,6 +120,7 @@ namespace Project3 {
 			this->pas->Name = L"pas";
 			this->pas->Size = System::Drawing::Size(100, 20);
 			this->pas->TabIndex = 5;
+			this->pas->UseSystemPasswordChar = true;
 			// 
 			// label3
 			// 
