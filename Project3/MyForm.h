@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <vector>
 
 namespace Project3 {
 
@@ -195,7 +194,7 @@ namespace Project3 {
 		user[1] = em;
 		user[2] = hash;
 
-		StreamWriter^ sw = gcnew StreamWriter("./Data.json");
+		StreamWriter^ sw = gcnew StreamWriter("./User.json");
 		for (int i = 0; i < 3; i++) {
 			sw->WriteLine(user[i]);
 		}
